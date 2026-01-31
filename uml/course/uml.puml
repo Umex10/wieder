@@ -1,0 +1,33 @@
+@startuml course_diagram
+ abstract class Human {
+ -String name
+ -String email
+ +String getName()
+ +String getEmail()
+}
+
+ class Student {
+ +Student(String name, String email)
+}
+
+class Teacher {
+ +Teacher(String name, String email)
+}
+
+class Course {
+ -String name
+ -int sws
+ -Teacher teacher
+ -List<Student> students
+
+ +String getName()
+ +int getSws()
+ +Teacher getTeacher()
+ +List<Student> getStudents()
+}
+
+ Course "1" --> "*" Student
+ Course "1" --> "1" Teacher
+ Human <|-- Teacher
+ Human <|-- Student
+@enduml
