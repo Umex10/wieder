@@ -1,0 +1,48 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+title Exercise Design Patterns
+
+interface ChatObserver
+ChatObserver : update(Message m)
+
+interface ChatObservation
+ChatObservation : attach(ChatObserver observer)
+ChatObservation : attach(ChatObserver observer)
+ChatObservation : notifyObservers(Message lastMessage)
+
+class ConcreteChatObservation
+ConcreteChatObservation ..|> ChatObservation
+
+class ChatRoomSingleton
+ChatRoomSingleton : - {static} instance : ChatRoomSingleton
+ChatRoomSingleton : -  messages : Messages [0..*]
+ChatRoomSingleton : - Singleton()
+ChatRoomSingleton : + {static} getInstance() : ChatRoomSingleton
+ChatRoomSingleton : + addMessage(Message message)
+ChatRoomSingleton : requestUpdates(user : User)
+
+note bottom: requestUpdates() nur jene User, die hier hinzufügt werden bekommen einen Benachrichtigung
+
+class User
+User : - chatRoom: ChatRoomSingleton
+User : + postMessage(String text)
+note top: postMessage() fügt eine Message in den Chatroom hinzu
+
+
+class Message
+Message : - messageText: String
+Message : - user:User
+Message : + Message(text : String, user:User)
+
+
+Message -> User
+User "*"-->"1" ChatRoomSingleton
+User .|> ChatObserver
+ChatRoomSingleton -> ConcreteChatObservation
+
+
+
+
+
+@enduml
