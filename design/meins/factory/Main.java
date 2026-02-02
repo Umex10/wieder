@@ -6,7 +6,7 @@ public class Main {
     
     Factory factory;
 
-    factory = new Road();
+    factory = new Schiff();
 
     factory.planDelivery();
 
